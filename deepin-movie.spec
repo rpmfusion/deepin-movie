@@ -1,6 +1,6 @@
 Name:           deepin-movie
 Version:        3.2.24.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Deepin movie based on mpv
 Summary(zh_CN): 深度影音
 License:        GPLv3
@@ -85,6 +85,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
 %{_libdir}/libdmr.so
 
 %changelog
+* Tue Feb 04 2020 RPM Fusion Release Engineering <leigh123linux@gmail.com> - 3.2.24.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
+
 * Sun Aug 25 2019 Zamir SUN <zsun@fedoraproject.org> - 3.2.24.3-1
 - Update to 3.2.24.3
 

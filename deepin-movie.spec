@@ -1,3 +1,5 @@
+%undefine __cmake_in_source_build
+
 Name:           deepin-movie
 Version:        3.2.24.3
 Release:        4%{?dist}
@@ -54,11 +56,11 @@ Header files and libraries for %{name}.
 sed -i '/dtk2/s|lib|libexec|' src/CMakeLists.txt
 
 %build
-%cmake -DCMAKE_BUILD_TYPE=Release
-%make_build
+%cmake3 -DCMAKE_BUILD_TYPE=Release
+%cmake3_build
 
 %install
-%make_install
+%cmake3_install
 install -Dm644 %SOURCE1 %{buildroot}%{_datadir}/appdata/%{name}.appdata.xml
 appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/%{name}.appdata.xml
 desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop

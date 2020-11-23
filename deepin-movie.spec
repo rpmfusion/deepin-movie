@@ -9,6 +9,8 @@ License:        GPLv3
 URL:            https://github.com/linuxdeepin/deepin-movie-reborn
 Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
 Source1:        %{name}-appdata.xml
+Patch0:         add_qthelper.patch
+Patch1:         add_missing-qt_includes.patch
 
 BuildRequires:  cmake(Qt5Concurrent)
 BuildRequires:  cmake(Qt5DBus)
@@ -27,7 +29,7 @@ BuildRequires:  pkgconfig(libavcodec)
 BuildRequires:  pkgconfig(libavresample)
 BuildRequires:  pkgconfig(libpulse)
 BuildRequires:  pkgconfig(libpulse-simple)
-BuildRequires:  pkgconfig(mpv)
+BuildRequires:  mpv-libs-devel
 BuildRequires:  pkgconfig(openssl)
 BuildRequires:  pkgconfig(xtst)
 BuildRequires:  pkgconfig(xcb-aux)
@@ -52,7 +54,7 @@ Requires:       %{name}%{?_isa} = %{version}-%{release}
 Header files and libraries for %{name}.
 
 %prep
-%setup -q -n %{name}-reborn-%{version}
+%autosetup -p1 -n %{name}-reborn-%{version}
 sed -i '/dtk2/s|lib|libexec|' src/CMakeLists.txt
 
 %build

@@ -2,7 +2,7 @@
 
 Name:           deepin-movie
 Version:        3.2.24.3
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Deepin movie based on mpv
 Summary(zh_CN): 深度影音
 License:        GPLv3
@@ -89,6 +89,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
 %{_libdir}/libdmr.so
 
 %changelog
+* Thu Dec 31 2020 Leigh Scott <leigh123linux@gmail.com> - 3.2.24.3-6
+- Rebuilt for new ffmpeg snapshot
+
 * Mon Nov 23 2020 Leigh Scott <leigh123linux@gmail.com> - 3.2.24.3-5
 - Rebuild for new mpv
 

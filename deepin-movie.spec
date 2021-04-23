@@ -1,27 +1,29 @@
 %undefine __cmake_in_source_build
+%global _lto_cflags %{nil}
 
 Name:           deepin-movie
-Version:        3.2.24.3
-Release:        7%{?dist}
+Version:        5.7.11
+Release:        1%{?dist}
 Summary:        Deepin movie based on mpv
 Summary(zh_CN): 深度影音
 License:        GPLv3
 URL:            https://github.com/linuxdeepin/deepin-movie-reborn
 Source0:        %{url}/archive/%{version}/%{name}-%{version}.tar.gz
 Source1:        %{name}-appdata.xml
-Patch0:         add_qthelper.patch
-Patch1:         add_missing-qt_includes.patch
+Patch0:         fix_linking.patch
 
 BuildRequires:  cmake(Qt5Concurrent)
 BuildRequires:  cmake(Qt5DBus)
 BuildRequires:  cmake(Qt5LinguistTools)
 BuildRequires:  cmake(Qt5Network)
 BuildRequires:  cmake(Qt5Sql)
+BuildRequires:  cmake(Qt5Svg)
 BuildRequires:  cmake(Qt5Widgets)
 BuildRequires:  cmake(Qt5X11Extras)
 BuildRequires:  pkgconfig(dtkcore)
 BuildRequires:  pkgconfig(dtkwidget) >= 2.0.6
 BuildRequires:  pkgconfig(dvdnav)
+BuildRequires:  pkgconfig(gsettings-qt)
 BuildRequires:  pkgconfig(libffmpegthumbnailer)
 BuildRequires:  pkgconfig(libavformat)
 BuildRequires:  pkgconfig(libavutil)
@@ -29,6 +31,7 @@ BuildRequires:  pkgconfig(libavcodec)
 BuildRequires:  pkgconfig(libavresample)
 BuildRequires:  pkgconfig(libpulse)
 BuildRequires:  pkgconfig(libpulse-simple)
+BuildRequires:  pkgconfig(mpris-qt5)
 BuildRequires:  mpv-libs-devel
 BuildRequires:  pkgconfig(openssl)
 BuildRequires:  pkgconfig(xtst)
@@ -39,6 +42,8 @@ BuildRequires:  pkgconfig(xcb-shape)
 BuildRequires:  libappstream-glib
 BuildRequires:  gcc
 BuildRequires:  desktop-file-utils
+
+Requires:  deepin-qt5integration
 
 %description
 Deepin movie for deepin desktop environment.
@@ -56,6 +61,8 @@ Header files and libraries for %{name}.
 %prep
 %autosetup -p1 -n %{name}-reborn-%{version}
 sed -i '/dtk2/s|lib|libexec|' src/CMakeLists.txt
+sed -i '/#include <DPalette>/a #include <QPainterPath>' src/widgets/{tip,toolbutton}.h
+sed -i 's/Exec=deepin-movie/Exec=env QT_QPA_PLATFORMTHEME=deepin deepin-movie/g' ./%{name}.desktop
 
 %build
 %cmake3 -DCMAKE_BUILD_TYPE=Release
@@ -63,9 +70,11 @@ sed -i '/dtk2/s|lib|libexec|' src/CMakeLists.txt
 
 %install
 %cmake3_install
-install -Dm644 %SOURCE1 %{buildroot}%{_datadir}/appdata/%{name}.appdata.xml
-appstream-util validate-relax --nonet %{buildroot}%{_datadir}/appdata/%{name}.appdata.xml
+install -Dm644 %SOURCE1 %{buildroot}%{_metainfodir}/%{name}.appdata.xml
+appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}.appdata.xml
 desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
+
+rm -rf %{buildroot}/%{_datadir}/deepin-manual/
 
 %find_lang %{name} --with-qt
 
@@ -75,20 +84,21 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
 %{_bindir}/%{name}
 %{_libdir}/libdmr.so.0.1
 %{_libdir}/libdmr.so.0.1.0
-%{_datadir}/appdata/%{name}.appdata.xml
-%{_datadir}/%{name}
-%{_datadir}/%{name}/translations
-%{_datadir}/%{name}/translations/%{name}*.qm
+%{_metainfodir}/%{name}.appdata.xml
+%{_datadir}/%{name}/
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/hicolor/scalable/apps/%{name}.svg
+%{_datadir}/glib-2.0/schemas/com.deepin.%{name}.gschema.xml
 
 %files devel
-%{_includedir}/libdmr
-%{_includedir}/libdmr/*.h
+%{_includedir}/libdmr/
 %{_libdir}/pkgconfig/libdmr.pc
 %{_libdir}/libdmr.so
 
 %changelog
+* Fri Apr 23 2021 Leigh Scott <leigh123linux@gmail.com> - 5.7.11-1
+- Update to 5.7.11
+
 * Wed Feb 03 2021 RPM Fusion Release Engineering <leigh123linux@gmail.com> - 3.2.24.3-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
 

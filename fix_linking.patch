@@ -1,0 +1,24 @@
+diff -Nur a/src/CMakeLists.txt b/src/CMakeLists.txt
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -7,6 +7,7 @@
+ 
+ include_directories(${CMAKE_INCLUDE_CURRENT_DIR})
+ include_directories(${CMAKE_CURRENT_BINARY_DIR})
++include_directories(/usr/include/ffmpeg)
+ 
+ find_package(Qt5Widgets)
+ find_package(Qt5DBus)
+diff -Nur a/src/libdmr/CMakeLists.txt b/src/libdmr/CMakeLists.txt
+--- a/src/libdmr/CMakeLists.txt
++++ b/src/libdmr/CMakeLists.txt
+@@ -21,7 +21,7 @@
+     ${PROJECT_SOURCE_DIR}/../common ${PROJECT_SOURCE_DIR}/../backends/mpv)
+ 
+ target_link_libraries(${CMD_NAME} PkgConfig::Dtk Qt5::Widgets Qt5::Concurrent
+-    Qt5::Network Qt5::X11Extras Qt5::Sql Qt5::Svg Qt5::DBus PkgConfig::AV
++    Qt5::Network Qt5::X11Extras Qt5::Sql Qt5::Svg Qt5::DBus PkgConfig::AV gsettings-qt
+     ${FFTHUMB_LIBRARIES} GL)
+ #target_link_libraries(${CMD_NAME} PkgConfig::Dtk Qt5::Widgets Qt5::Concurrent
+ #    Qt5::Network Qt5::X11Extras Qt5::Sql Qt5::DBus PkgConfig::AV GL png jpeg)
+

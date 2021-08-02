@@ -3,7 +3,7 @@
 
 Name:           deepin-movie
 Version:        5.7.11
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Deepin movie based on mpv
 Summary(zh_CN): 深度影音
 License:        GPLv3
@@ -96,6 +96,9 @@ rm -rf %{buildroot}/%{_datadir}/deepin-manual/
 %{_libdir}/libdmr.so
 
 %changelog
+* Mon Aug 02 2021 RPM Fusion Release Engineering <leigh123linux@gmail.com> - 5.7.11-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild
+
 * Fri Apr 23 2021 Leigh Scott <leigh123linux@gmail.com> - 5.7.11-1
 - Update to 5.7.11
 

@@ -2,8 +2,8 @@
 %global _lto_cflags %{nil}
 
 Name:           deepin-movie
-Version:        5.7.11
-Release:        3%{?dist}
+Version:        5.7.15
+Release:        1%{?dist}
 Summary:        Deepin movie based on mpv
 Summary(zh_CN): 深度影音
 License:        GPLv3
@@ -96,6 +96,9 @@ rm -rf %{buildroot}/%{_datadir}/deepin-manual/
 %{_libdir}/libdmr.so
 
 %changelog
+* Sun Dec 19 2021 Nicolas Chauvet <kwizart@gmail.com> - 5.7.15-1
+- Update to 5.7.15
+
 * Thu Nov 11 2021 Leigh Scott <leigh123linux@gmail.com> - 5.7.11-3
 - Rebuilt for new ffmpeg snapshot
 
